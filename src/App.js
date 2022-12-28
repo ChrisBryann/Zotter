@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import Layout from './components/Layout/Layout';
+import { Route, Routes } from 'react-router-dom';
+import Schedule from './components/Schedule/Schedule';
+import './App.css'
+import ClassCard from './components/UI/ClassCard';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Routes>
+        <Route path='/' element={<Schedule />} />
+        <Route path='/card' element={<ClassCard />} />
+        <Route path='*' element={<p>Not Found!</p>} />
+      </Routes>
+    </Layout>
   );
 }
 
