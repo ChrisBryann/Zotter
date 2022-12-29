@@ -10,7 +10,7 @@ import {
 const ScheduleCalendar = () => {
   const classesCtx = useContext(classesContext); //assuming we already have an array of scheduled classes to present, we then pass the array to "data" props in Scheduler component
   return (
-    <div className="md:col-start-2 md:col-end-4">
+    <div className="lg:col-start-2 lg:col-end-4">
       <div className="max-h-auto overflow-hidden shadow sm:rounded-lg border-4 border-blue-500">
         <Paper>
           <Scheduler height="auto" >

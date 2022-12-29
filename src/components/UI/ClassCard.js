@@ -57,16 +57,16 @@ const ClassCard = (props) => {
           </button>
         </div>
       )}
-      <div className="bg-white max-w-full border-yellow-300 border-2 rounded overflow-hidden shadow-lg">
+      <div className="bg-white max-w-full max-h-full border-yellow-300 border-2 rounded overflow-hidden shadow-lg">
         <div className="px-6 py-4">
           <div className="font-bold text-2xl mb-4">
             CS 121 - Information Retrieval
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <div className="p-4 bg-red-200 col-span-1 rounded-md">
+            <div className="inline-block p-4 bg-red-200 col-span-1 rounded-md">
               <div className="font-bold text-lg mb-4">
                 Lec
-                <span className="inline-block float-right bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white">
+                <span className="float-right bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white">
                   250/300
                 </span>
               </div>

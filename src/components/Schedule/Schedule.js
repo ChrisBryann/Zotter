@@ -6,8 +6,8 @@ const Schedule = () => {
   return (
     <>
       <div className="mt-10 sm:mt-0">
-        <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1 md:col-start-1 md:col-end-2">
+        <div className="lg:grid lg:grid-cols-3 lg:gap-6">
+          <div className="lg:col-span-1 lg:col-start-1 lg:col-end-2">
             <ScheduleForm />
             <ScheduleItem />
           </div>
