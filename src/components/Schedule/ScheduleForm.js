@@ -48,12 +48,14 @@ export default function ScheduleForm() {
     )
       .then(async (data) => {
         const res = await data.json();
-        console.log(res['schools'])
+        console.log(res["schools"]);
         if (res["schools"].length !== 0) {
           classesCtx.updateClasses(
             res["schools"][0]["departments"][0]["courses"]
           );
-          console.log(res["schools"][0]["departments"][0]["courses"]);
+        } else {
+          // indicates that no classes are found with those criteria
+          classesCtx.clearClasses();
         }
       })
       .catch((err) => {
@@ -78,7 +80,7 @@ export default function ScheduleForm() {
                   id="term"
                   value={term}
                   name="term"
-                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="scrollbar mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                   onChange={setTermHandler}
                 >
                   {terms.map((item, idx) => (
@@ -100,7 +102,7 @@ export default function ScheduleForm() {
                   id="general-education"
                   value={ge}
                   name="general-education"
-                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="scrollbar mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                   onChange={setGenEdHandler}
                 >
                   {genEd.map((item, idx) => (
@@ -122,7 +124,7 @@ export default function ScheduleForm() {
                   id="department"
                   value={department}
                   name="department"
-                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="scrollbar mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                   onChange={setDepartmentHandler}
                 >
                   {departments.map((item, idx) => (

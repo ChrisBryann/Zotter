@@ -68,12 +68,13 @@ const ClassCard = (props) => {
           const {
             sectionCode,
             sectionType,
+            sectionNum,
             units,
             instructors,
-            meetings: { days, time, bldg },
+            meetings: [{ days, time: Time, bldg: Location }],
             finalExam,
             maxCapacity,
-            numCurrentlyEnrolled,
+            numCurrentlyEnrolled: { totalEnrolled },
             numOnWaitlist,
             restrictions,
             status,
@@ -81,14 +82,14 @@ const ClassCard = (props) => {
           const rest = {
             "Instructor(s)": instructors,
             "Final Exam": finalExam,
-            Location: bldg,
-            Time: time,
+            Location,
+            Time,
             "Day(s)": days,
             "Unit(s)": units,
-            "Maximum Capacity": maxCapacity,
+            Section: sectionNum,
             Restrictions: restrictions,
             Status:
-              status === "OPEN"
+              status === "OPEN" || status === "FULL"
                 ? status
                 : status + ` (${numOnWaitlist} student(s) waitlisted)`,
           };
@@ -96,19 +97,55 @@ const ClassCard = (props) => {
             <Fragment>
               <div className="px-6 py-4">
                 <div className="font-bold text-md mb-4">
-                  <span className="float-right bg-red-600 rounded-full px-2 py-1 text-sm font-semibold text-white">
-                    {`${numCurrentlyEnrolled.totalEnrolled}/${maxCapacity}`}
+                  <span
+                    className={
+                      (totalEnrolled / maxCapacity === 1
+                        ? "bg-red-600 text-white"
+                        : totalEnrolled / maxCapacity >= 0.5
+                        ? "bg-yellow-500 text-black"
+                        : "bg-green-400 text-black") +
+                      " float-right rounded-full px-2 py-1 text-sm font-semibold"
+                    }
+                  >
+                    Enrolled: {`${totalEnrolled}/${maxCapacity}`}
                   </span>
-                  <span className="bg-blue-600 rounded-full px-2 py-1 font-bold text-white">
+                  <span
+                    className={
+                      (sectionType === "Lec"
+                        ? "bg-lec"
+                        : sectionType === "Dis"
+                        ? "bg-dis"
+                        : "bg-lab") +
+                      " rounded-full px-2 py-1 font-bold text-white"
+                    }
+                  >
                     {sectionType}
                   </span>
                 </div>
-                {Object.keys(rest).map((key) => (
-                  <p className="text-black-700 text-base">
-                    <span className="font-bold text-md">{key}: </span>
-                    {key === "Instructor(s)" ? rest[key].join(", ") : rest[key]}
-                  </p>
-                ))}
+                {Object.keys(rest).map(
+                  (key) =>
+                    rest[key] && (
+                      <p className="text-base">
+                        <span className="font-bold text-md">{key}: </span>
+                        <span
+                          className={
+                            key === "Status"
+                              ? "font-bold " +
+                                (rest[key] === "OPEN"
+                                  ? "text-green-600"
+                                  : rest[key] === "FULL"
+                                  ? "text-black"
+                                  : "text-red-600")
+                              : ""
+                          }
+                        >
+                          {key === "Instructor(s)"
+                            ? rest[key].join(", ")
+                            : rest[key]}
+                        </span>
+                      </p>
+                    )
+                )}
                 <span
                   onClick={() => {
                     notCopiedHandler();
@@ -120,11 +157,11 @@ const ClassCard = (props) => {
                 >
                   {sectionCode}
                 </span>
-                {/* <div className="block float-right my-5 ml-5 mr-2">
-              <button className="justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Add
-              </button>
-            </div> */}
+                <div className="text-right mr-1">
+                  <button className="inline-flex justify-center rounded-full shadow-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Add
+                  </button>
+                </div>
               </div>
               <div className="relative">
                 <div
