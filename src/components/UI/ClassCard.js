@@ -8,6 +8,7 @@ const ClassCard = (props) => {
   const notCopiedHandler = () => {
     setIsCopied(false);
   };
+  console.log(props.deptCode, props.courseNumber, props.courseTitle);
   return (
     <div className="my-3">
       {isCopied && (
@@ -57,121 +58,85 @@ const ClassCard = (props) => {
           </button>
         </div>
       )}
-      <div className="bg-white max-w-full max-h-full border-yellow-300 border-2 rounded overflow-hidden shadow-lg">
-        <div className="px-6 py-4">
-          <div className="font-bold text-2xl mb-4">
-            CS 121 - Information Retrieval
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="inline-block p-4 bg-red-200 col-span-1 rounded-md">
-              <div className="font-bold text-lg mb-4">
-                Lec
-                <span className="float-right bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white">
-                  250/300
-                </span>
-              </div>
-
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Instructor: </span>Cristina
-                Lopes
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Building: </span>EH 1200
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Time: </span>09:00-11.20pm
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Days: </span>MW
-              </p>
-              <span
-                onClick={() => {
-                  notCopiedHandler();
-                  setTimeout(() => {
-                    copiedHandler();
-                  }, 100);
-                }}
-                className="inline-block bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-yellow-300 mt-2 mr-2 hover:cursor-pointer hover:bg-blue-700"
-              >
-                34045
-              </span>
-            </div>
-            <div className="p-4 bg-red-200 col-span-1 rounded-md">
-              <div className="font-bold text-lg mb-4">
-                Lec
-                <span className="inline-block float-right bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white">
-                  147/170
-                </span>
-              </div>
-
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Instructor: </span>Cristina
-                Lopes
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Building: </span>EH 1200
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Time: </span>09:00-11.20pm
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Days: </span>MW
-              </p>
-              <span
-                onClick={() => {
-                  notCopiedHandler();
-                  setTimeout(() => {
-                    copiedHandler();
-                  }, 100);
-                }}
-                className="inline-block bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-yellow-300 mt-2 mr-2 hover:cursor-pointer"
-              >
-                34045
-              </span>
-            </div>
-            <div className="p-4 bg-red-200 col-span-1 rounded-md">
-              <div className="font-bold text-lg mb-4">
-                Lec
-                <span className="inline-block float-right bg-red-600 rounded-full px-3 py-1 text-sm font-semibold text-white">
-                  147/170
-                </span>
-              </div>
-
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Instructor: </span>Cristina
-                Lopes
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Building: </span>EH 1200
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Time: </span>09:00-11.20pm
-              </p>
-              <p className="text-black-700 text-base">
-                <span className="font-bold text-md">Days: </span>MW
-              </p>
-              <span
-                onClick={() => {
-                  notCopiedHandler();
-                  setTimeout(() => {
-                    copiedHandler();
-                  }, 100);
-                }}
-                className="inline-block bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-yellow-300 mt-2 mr-2 hover:cursor-pointer"
-              >
-                34045
-              </span>
-            </div>
-          </div>
-          <div className="inline-block float-right my-5 ml-5 mr-2">
-            <button
-              className="justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-
-            >
-              Add
-            </button>
+      <div className="bg-white max-w-full max-h-full rounded overflow-hidden shadow-2xl">
+        <div className="bg-blue-600 p-2">
+          <div className="font-bold text-yellow-400 text-2xl mb-4">
+            {props.deptCode} {props.courseNumber} - {props.courseTitle}
           </div>
         </div>
+        {props.sections.map((section) => {
+          const {
+            sectionCode,
+            sectionType,
+            units,
+            instructors,
+            meetings: { days, time, bldg },
+            finalExam,
+            maxCapacity,
+            numCurrentlyEnrolled,
+            numOnWaitlist,
+            restrictions,
+            status,
+          } = section;
+          const rest = {
+            "Instructor(s)": instructors,
+            "Final Exam": finalExam,
+            Location: bldg,
+            Time: time,
+            "Day(s)": days,
+            "Unit(s)": units,
+            "Maximum Capacity": maxCapacity,
+            Restrictions: restrictions,
+            Status:
+              status === "OPEN"
+                ? status
+                : status + ` (${numOnWaitlist} student(s) waitlisted)`,
+          };
+          return (
+            <Fragment>
+              <div className="px-6 py-4">
+                <div className="font-bold text-md mb-4">
+                  <span className="float-right bg-red-600 rounded-full px-2 py-1 text-sm font-semibold text-white">
+                    {`${numCurrentlyEnrolled.totalEnrolled}/${maxCapacity}`}
+                  </span>
+                  <span className="bg-blue-600 rounded-full px-2 py-1 font-bold text-white">
+                    {sectionType}
+                  </span>
+                </div>
+                {Object.keys(rest).map((key) => (
+                  <p className="text-black-700 text-base">
+                    <span className="font-bold text-md">{key}: </span>
+                    {key === "Instructor(s)" ? rest[key].join(", ") : rest[key]}
+                  </p>
+                ))}
+                <span
+                  onClick={() => {
+                    notCopiedHandler();
+                    setTimeout(() => {
+                      copiedHandler();
+                    }, 100);
+                  }}
+                  className="inline-block bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-yellow-300 mt-2 mr-2 hover:cursor-pointer hover:bg-blue-700"
+                >
+                  {sectionCode}
+                </span>
+                {/* <div className="block float-right my-5 ml-5 mr-2">
+              <button className="justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Add
+              </button>
+            </div> */}
+              </div>
+              <div className="relative">
+                <div
+                  className="absolute inset-0 flex items-center"
+                  aria-hidden="true"
+                >
+                  <div className="w-full border-t border-gray-300" />
+                </div>
+              </div>
+            </Fragment>
+          );
+        })}
       </div>
     </div>
   );

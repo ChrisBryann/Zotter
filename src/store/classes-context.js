@@ -1,7 +1,9 @@
 import React from "react";
 
-const classesContext = React.createContext({
+const ClassesContext = React.createContext({
   classes: [],
+  updateClasses: (data) => {},
+  clearClasses: () => {},
 });
 
-export default classesContext;
+export default ClassesContext;
