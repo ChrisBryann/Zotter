@@ -8,12 +8,13 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 const ScheduleCalendar = () => {
+  // TODO: add functionality to click the scheduled class on calendar and show a pop up card, done from the devexpress framework
   const classesCtx = useContext(classesContext); //assuming we already have an array of scheduled classes to present, we then pass the array to "data" props in Scheduler component
   return (
     <div className="lg:col-start-2 lg:col-end-4">
       <div className="max-h-auto overflow-hidden shadow-lg sm:rounded-lg">
         <Paper>
-          <Scheduler height="auto" >
+          <Scheduler data={classesCtx.appointments}>
             <WeekView
               excludedDays={[0, 6]}
               startDayHour={7.5}
