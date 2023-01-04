@@ -1,8 +1,18 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import ClassesContext from "../../store/classes-context";
 
 const ClassCard = (props) => {
-  const onAddHandler = (days, time, location, courseTitle, courseType) => {
+  const classesCtx = useContext(ClassesContext)
+  const onAddHandler = (
+    days,
+    time,
+    location,
+    courseTitle,
+    courseType,
+    sectionNum
+  ) => {
     console.log(days, time, location, courseTitle, courseType);
+    console.log(`${courseTitle}-${sectionNum}`);
     if (time.trim() === "TBA") {
       console.log("no time, will add to list");
     } else {
@@ -12,8 +22,10 @@ const ClassCard = (props) => {
         location,
         courseTitle,
         courseType,
+        sectionNum,
       });
     }
+    console.log(classesCtx.appointments);
   };
 
   return (
@@ -118,6 +130,23 @@ const ClassCard = (props) => {
                   {sectionCode}
                 </span>
                 <div className="text-right mr-1">
+                  {/* <ActionButton
+                    onAddHandler={onAddHandler.bind(
+                      this,
+                      days,
+                      Time,
+                      Location,
+                      props.deptCode + " " + props.courseNumber,
+                      sectionType,
+                      sectionNum
+                    )}
+                    onDeleteHandler={onDeleteHandler.bind(
+                      this,
+                      `${
+                        props.deptCode + " " + props.courseNumber
+                      }-${sectionNum}`
+                    )}
+                  /> */}
                   <button
                     onClick={onAddHandler.bind(
                       this,
@@ -125,9 +154,10 @@ const ClassCard = (props) => {
                       Time,
                       Location,
                       props.deptCode + " " + props.courseNumber,
-                      sectionType
+                      sectionType,
+                      sectionNum
                     )}
-                    className="inline-flex justify-center rounded-full shadow-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-full shadow-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
                   >
                     Add
                   </button>

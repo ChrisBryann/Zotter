@@ -5,26 +5,25 @@ import { setToDate, DAYS, COMBINED_DAYS, formatTime } from "./util";
 const defaultClassesState = {
   classes: [],
   appointments: [],
-  counter: 0,
 };
+
+// TODO: Currently storing incrementation as ID, which is redundant.
+// Future development requires more secure process to obtain unique ID
 
 const classesReducer = (state, action) => {
   if (action.type === "UPDATE_CLASSES") {
     return {
       classes: action.data,
       appointments: state.appointments,
-      counter: state.counter,
     };
   } else if (action.type === "CLEAR_CLASSES") {
     return {
       classes: [],
       appointments: state.appointments,
-      counter: state.counter,
     };
   } else if (action.type === "UPDATE_APPOINTMENTS") {
     let appointments = [];
     let data = action.data;
-    let counter = state.counter;
     const [startHours, startMinutes, endHours, endMinutes] = formatTime(
       data.time
     );
@@ -39,12 +38,11 @@ const classesReducer = (state, action) => {
         newEndDate.setMinutes(endMinutes);
         appointments.push({
           title: data.courseType + " " + data.courseTitle,
-          id: counter,
+          id: `${data.courseTitle}-${data.sectionNum}`,
           startDate: newStartDate,
           endDate: newEndDate,
           location: data.location,
         });
-        counter++;
       }
     } else {
       const date = setToDate(new Date(), DAYS[data.days.trim()]);
@@ -56,23 +54,27 @@ const classesReducer = (state, action) => {
       newEndDate.setMinutes(endMinutes);
       appointments.push({
         title: data.courseType + " " + data.courseTitle,
-        id: counter,
+        id: `${data.courseType}-${data.sectionNum}`,
         startDate: newStartDate,
         endDate: newEndDate,
         location: data.location,
       });
-      counter++;
     }
     return {
       classes: state.classes,
       appointments: [...state.appointments, ...appointments],
-      counter,
     };
+  } else if (action.type === "DELETE_APPOINTMENTS") {
+    return {
+      classes: state.classes,
+      appointments: state.appointments.filter(
+        (appointment) => appointment.id !== action.id
+      ),
+    }; // ISSUE: After filtering the deleted appointments, they still appear on the schedule
   } else if (action.type === "CLEAR_APPOINTMENTS") {
     return {
       classes: state.classes,
       appointments: [],
-      counter: 0,
     };
   }
   return defaultClassesState;
@@ -104,6 +106,13 @@ const ClassesProvider = (props) => {
     });
   };
 
+  const deleteAppointmentsHandler = (id) => {
+    dispatchClasses({
+      type: "DELETE_APPOINTMENTS",
+      id,
+    });
+  };
+
   const clearAppointmentsHandler = () => {
     dispatchClasses({
       type: "CLEAR_APPOINTMENTS",
@@ -113,10 +122,10 @@ const ClassesProvider = (props) => {
   const classesContext = {
     classes: classesState.classes,
     appointments: classesState.appointments,
-    counter: classesState.counter,
     updateClasses: updateClassesHandler,
     clearClasses: clearClassesHandler,
     updateAppointments: updateAppointmentsHandler,
+    deleteAppointments: deleteAppointmentsHandler,
     clearAppointments: clearAppointmentsHandler,
   };
 
