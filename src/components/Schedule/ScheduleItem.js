@@ -16,6 +16,9 @@ const ScheduleItem = (props) => {
         {classesCtx.classes.map((course, idx) => (
           <ClassCard
             key={idx}
+            updateAddedCourses={classesCtx.updateAddedCourses}
+            courses={classesCtx.addedCourses}
+            deleteAddedCourses={classesCtx.deleteAddedCourses}
             updateAppointments={classesCtx.updateAppointments}
             deleteAppointments={classesCtx.deleteAppointments}
             onCopy={props.onCopy}

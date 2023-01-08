@@ -18,7 +18,8 @@ const ScheduleCalendar = () => {
 
   const commitChangesHandler = ({ deleted }) => {
     if (deleted !== undefined) {
-      classesCtx.deleteAppointments(deleted);
+      classesCtx.deleteAppointments(deleted.split("@")[0]);
+      classesCtx.deleteAddedCourses(deleted.split("@")[0]);
     }
   };
 

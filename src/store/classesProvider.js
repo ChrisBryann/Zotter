@@ -4,6 +4,7 @@ import { setToDate, DAYS, COMBINED_DAYS, formatTime } from "./util";
 
 const defaultClassesState = {
   classes: [],
+  addedCourses: [],
   appointments: [],
 };
 
@@ -13,13 +14,41 @@ const defaultClassesState = {
 const classesReducer = (state, action) => {
   if (action.type === "UPDATE_CLASSES") {
     return {
+      ...state,
       classes: action.data,
-      appointments: state.appointments,
     };
   } else if (action.type === "CLEAR_CLASSES") {
     return {
+      ...state,
       classes: [],
-      appointments: state.appointments,
+    };
+  } else if (action.type === "UPDATE_ADDED_COURSES") {
+    return {
+      ...state,
+      addedCourses: [
+        ...state.addedCourses,
+        {
+          id: `${action.data.courseTitle}-${action.data.sectionNum}`,
+          days: action.data.days,
+          time: action.data.time,
+          location: action.data.location,
+          title: action.data.courseTitle,
+          type: action.data.courseType,
+          section: action.data.sectionNum,
+        },
+      ],
+    };
+  } else if (action.type === "DELETE_ADDED_COURSES") {
+    return {
+      ...state,
+      addedCourses: state.addedCourses.filter(
+        (course) => course.id !== action.data.id
+      ),
+    };
+  } else if (action.type === "CLEAR_ADDED_COURSES") {
+    return {
+      ...state,
+      addedCourses: [],
     };
   } else if (action.type === "UPDATE_APPOINTMENTS") {
     let appointments = [];
@@ -28,6 +57,7 @@ const classesReducer = (state, action) => {
       data.time
     );
     if (data.days.trim() in COMBINED_DAYS) {
+      let count = 0;
       for (const day of COMBINED_DAYS[data.days.trim()]) {
         const date = setToDate(new Date(), DAYS[day]);
         const newStartDate = new Date(date);
@@ -38,7 +68,7 @@ const classesReducer = (state, action) => {
         newEndDate.setMinutes(endMinutes);
         appointments.push({
           title: data.courseType + " " + data.courseTitle,
-          id: `${data.courseTitle}-${data.sectionNum}`,
+          id: `${data.courseTitle}-${data.sectionNum}@${count++}`,
           startDate: newStartDate,
           endDate: newEndDate,
           location: data.location,
@@ -61,19 +91,19 @@ const classesReducer = (state, action) => {
       });
     }
     return {
-      classes: state.classes,
+      ...state,
       appointments: [...state.appointments, ...appointments],
     };
   } else if (action.type === "DELETE_APPOINTMENTS") {
     return {
-      classes: state.classes,
+      ...state,
       appointments: state.appointments.filter(
-        (appointment) => appointment.id !== action.id
+        (appointment) => appointment.id.split("@")[0] !== action.data.id
       ),
-    }; // ISSUE: After filtering the deleted appointments, they still appear on the schedule
+    }; // ISSUE: After filtering the deleted appointments, they still appear on the schedule --> FIXED: each appointment must have unique ID
   } else if (action.type === "CLEAR_APPOINTMENTS") {
     return {
-      classes: state.classes,
+      ...state,
       appointments: [],
     };
   }
@@ -99,6 +129,28 @@ const ClassesProvider = (props) => {
     });
   };
 
+  const updateAddedCoursesHandler = (data) => {
+    dispatchClasses({
+      type: "UPDATE_ADDED_COURSES",
+      data,
+    });
+  };
+
+  const deleteAddedCoursesHandler = (id) => {
+    dispatchClasses({
+      type: "DELETE_ADDED_COURSES",
+      data: {
+        id,
+      },
+    });
+  };
+
+  const clearAddedCoursesHandler = () => {
+    dispatchClasses({
+      type: "CLEAR_ADDED_COURSES",
+    });
+  };
+
   const updateAppointmentsHandler = (data) => {
     dispatchClasses({
       type: "UPDATE_APPOINTMENTS",
@@ -109,7 +161,9 @@ const ClassesProvider = (props) => {
   const deleteAppointmentsHandler = (id) => {
     dispatchClasses({
       type: "DELETE_APPOINTMENTS",
-      id,
+      data: {
+        id,
+      },
     });
   };
 
@@ -122,8 +176,12 @@ const ClassesProvider = (props) => {
   const classesContext = {
     classes: classesState.classes,
     appointments: classesState.appointments,
+    addedCourses: classesState.addedCourses,
     updateClasses: updateClassesHandler,
     clearClasses: clearClassesHandler,
+    updateAddedCourses: updateAddedCoursesHandler,
+    deleteAddedCourses: deleteAddedCoursesHandler,
+    clearAddedCourses: clearAddedCoursesHandler,
     updateAppointments: updateAppointmentsHandler,
     deleteAppointments: deleteAppointmentsHandler,
     clearAppointments: clearAppointmentsHandler,

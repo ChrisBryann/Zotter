@@ -1,8 +1,9 @@
 import { Fragment, useContext } from "react";
 import ClassesContext from "../../store/classes-context";
+import ActionButton from "./ActionButton";
 
 const ClassCard = (props) => {
-  const classesCtx = useContext(ClassesContext)
+  const classesCtx = useContext(ClassesContext);
   const onAddHandler = (
     days,
     time,
@@ -14,7 +15,7 @@ const ClassCard = (props) => {
     console.log(days, time, location, courseTitle, courseType);
     console.log(`${courseTitle}-${sectionNum}`);
     if (time.trim() === "TBA") {
-      console.log("no time, will add to list");
+      console.log("no time, will add to list of added courses");
     } else {
       props.updateAppointments({
         days,
@@ -25,7 +26,20 @@ const ClassCard = (props) => {
         sectionNum,
       });
     }
+    props.updateAddedCourses({
+      days,
+      time,
+      location,
+      courseTitle,
+      courseType,
+      sectionNum,
+    });
     console.log(classesCtx.appointments);
+  };
+
+  const onDeleteHandler = (id) => {
+    props.deleteAppointments(id);
+    props.deleteAddedCourses(id);
   };
 
   return (
@@ -130,7 +144,7 @@ const ClassCard = (props) => {
                   {sectionCode}
                 </span>
                 <div className="text-right mr-1">
-                  {/* <ActionButton
+                  <ActionButton
                     onAddHandler={onAddHandler.bind(
                       this,
                       days,
@@ -140,14 +154,18 @@ const ClassCard = (props) => {
                       sectionType,
                       sectionNum
                     )}
+                    id={`${
+                      props.deptCode + " " + props.courseNumber
+                    }-${sectionNum}`}
+                    courses={props.courses}
                     onDeleteHandler={onDeleteHandler.bind(
                       this,
                       `${
                         props.deptCode + " " + props.courseNumber
                       }-${sectionNum}`
                     )}
-                  /> */}
-                  <button
+                  />
+                  {/* <button
                     onClick={onAddHandler.bind(
                       this,
                       days,
@@ -160,7 +178,7 @@ const ClassCard = (props) => {
                     className="inline-flex justify-center rounded-full shadow-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
                   >
                     Add
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className="relative">
