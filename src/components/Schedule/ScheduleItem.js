@@ -9,7 +9,7 @@ const ScheduleItem = (props) => {
       <div
         className={
           classesCtx.classes.length > 0
-            ? "my-5 p-3 bg-white shadow-lg overflow-y-auto scrollbar max-h-screen md:rounded-lg"
+            ? "my-5 p-3 bg-white shadow-lg overflow-y-auto scrollbar max-h-screen rounded-lg"
             : ""
         }
       >

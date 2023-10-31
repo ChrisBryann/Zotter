@@ -66,7 +66,7 @@ export default function ScheduleForm() {
   return (
     <>
       <form className="mb-5" onSubmit={submitHandler}>
-        <div className="overflow-hidden shadow-lg sm:rounded-lg">
+        <div className="overflow-hidden shadow-lg rounded-lg">
           <div className="bg-white px-4 py-5 sm:p-6">
             <div className="grid grid-cols-6 gap-6">
               <div className="col-span-6">

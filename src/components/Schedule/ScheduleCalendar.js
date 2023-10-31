@@ -24,8 +24,8 @@ const ScheduleCalendar = () => {
   };
 
   return (
-    <div className="lg:col-start-2 lg:col-end-4">
-      <div className="max-h-auto overflow-hidden shadow-lg sm:rounded-lg">
+    <div className="lg:col-span-2 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+      <div className="overflow-y-auto shadow-lg rounded-lg">
         <Paper>
           <Scheduler data={classesCtx.appointments}>
             <EditingState onCommitChanges={commitChangesHandler} />
