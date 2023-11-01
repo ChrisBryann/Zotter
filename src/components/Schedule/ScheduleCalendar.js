@@ -15,10 +15,10 @@ import {
 const ScheduleCalendar = () => {
   // TODO: add functionality to click the scheduled class on calendar and show a pop up card, done from the devexpress framework
   const classesCtx = useContext(classesContext); //assuming we already have an array of scheduled classes to present, we then pass the array to "data" props in Scheduler component
-
   const commitChangesHandler = ({ deleted }) => {
     if (deleted !== undefined) {
-      classesCtx.deleteAppointments(deleted.split("@")[0]);
+      console.log(deleted.split("@")[0]);
+      classesCtx.deleteAppointments(deleted);
       classesCtx.deleteAddedCourses(deleted.split("@")[0]);
     }
   };

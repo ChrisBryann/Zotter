@@ -67,7 +67,7 @@ const classesReducer = (state, action) => {
         newEndDate.setHours(endHours);
         newEndDate.setMinutes(endMinutes);
         appointments.push({
-          title: data.courseType + " " + data.courseTitle,
+          title: data.courseTitle + " " + data.sectionNum,
           id: `${data.courseTitle}-${data.sectionNum}@${count++}`,
           startDate: newStartDate,
           endDate: newEndDate,
@@ -83,8 +83,8 @@ const classesReducer = (state, action) => {
       newEndDate.setHours(endHours);
       newEndDate.setMinutes(endMinutes);
       appointments.push({
-        title: data.courseType + " " + data.courseTitle,
-        id: `${data.courseType}-${data.sectionNum}`,
+        title: data.courseTitle + " " + data.sectionNum,
+        id: `${data.courseTitle}-${data.sectionNum}`,
         startDate: newStartDate,
         endDate: newEndDate,
         location: data.location,
@@ -98,7 +98,8 @@ const classesReducer = (state, action) => {
     return {
       ...state,
       appointments: state.appointments.filter(
-        (appointment) => appointment.id.split("@")[0] !== action.data.id
+        (appointment) =>
+          appointment.id.split("@")[0] !== action.data.id.split("@")[0]
       ),
     }; // ISSUE: After filtering the deleted appointments, they still appear on the schedule --> FIXED: each appointment must have unique ID
   } else if (action.type === "CLEAR_APPOINTMENTS") {
