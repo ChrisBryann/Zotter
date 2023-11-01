@@ -26,13 +26,13 @@ const Header = () => {
           </div>
 
           <div className="mt-4 flex place-content-center sm:mt-0 sm:flex-row">
-            <button className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white rounded-lg">
-              <ArchiveBoxIcon
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="h-6 w-auto text-white hover:text-gray-300"
-              />
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+              className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white rounded-lg"
+            >
+              <ArchiveBoxIcon className="h-6 w-auto text-white hover:text-gray-300" />
               {classCtx.addedCourses.length > 0 && (
                 <div class="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-0 right-0 dark:border-gray-900">
                   {classCtx.addedCourses.length}

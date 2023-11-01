@@ -3,13 +3,20 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import ClassesContext from "../../store/classes-context";
 
-
 const ClassesSlideOver = ({ open, setOpen }) => {
   const classesCtx = useContext(ClassesContext);
 
   const onDeleteHandler = (id) => {
     classesCtx.deleteAppointments(id);
     classesCtx.deleteAddedCourses(id);
+  };
+
+  const getClassScheduleText = () => {
+    let text = "";
+    for (const course of classesCtx.addedCourses) {
+      text += `${course.title} - ${course.type} ${course.section}\nCode: ${course.code}\nLocation: ${course.location}\nTime: ${course.days} ${course.time}\n\n`;
+    }
+    return text;
   };
 
   return (
@@ -75,8 +82,8 @@ const ClassesSlideOver = ({ open, setOpen }) => {
                                 <div className="flex flex-1 flex-col">
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>{course.title}</h3>
-                                      <p className="ml-4">{course.type}</p>
+                                      <h3>{course.title} - {course.type} {course.section}</h3>
+                                      <p className="ml-4">{course.code}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {course.location}
@@ -119,6 +126,13 @@ const ClassesSlideOver = ({ open, setOpen }) => {
                       <div className="mt-6">
                         <a
                           href="/"
+                          onClick={(e) => {
+                            const file = new Blob([getClassScheduleText()], {
+                              type: "text/plain",
+                            });
+                            e.currentTarget.href = URL.createObjectURL(file);
+                          }}
+                          download={"class_schedule.txt"}
                           className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
                         >
                           Download

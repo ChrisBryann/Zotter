@@ -4,6 +4,7 @@ import Schedule from "./components/Schedule/Schedule";
 import "./App.css";
 import ClassCard from "./components/UI/ClassCard";
 import ClassesProvider from "./store/classesProvider";
+import ErrorPage from "./components/UI/ErrorPage";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Schedule />} />
           <Route path="/card" element={<ClassCard />} />
-          <Route path="*" element={<p>Not Found!</p>} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Layout>
     </ClassesProvider>

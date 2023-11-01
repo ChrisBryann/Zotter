@@ -1,19 +1,17 @@
-import { Fragment, useContext } from "react";
-import ClassesContext from "../../store/classes-context";
+import { Fragment } from "react";
 import ActionButton from "./ActionButton";
 
 const ClassCard = (props) => {
-  const classesCtx = useContext(ClassesContext);
   const onAddHandler = (
     days,
     time,
     location,
     courseTitle,
     courseType,
-    sectionNum
+    sectionNum,
+    sectionCode
   ) => {
-    console.log(days, time, location, courseTitle, courseType);
-    console.log(`${courseTitle}-${sectionNum}`);
+    console.log(days, time, location, courseTitle, courseType, sectionCode);
     if (time.trim() === "TBA") {
       console.log("no time, will add to list of added courses");
     } else {
@@ -33,8 +31,8 @@ const ClassCard = (props) => {
       courseTitle,
       courseType,
       sectionNum,
+      sectionCode,
     });
-    console.log(classesCtx.appointments);
   };
 
   const onDeleteHandler = (id) => {
@@ -50,7 +48,7 @@ const ClassCard = (props) => {
             {props.deptCode} {props.courseNumber} - {props.courseTitle}
           </div>
         </div>
-        {props.sections.map((section) => {
+        {props.sections.map((section, idx) => {
           const {
             sectionCode,
             sectionType,
@@ -80,7 +78,7 @@ const ClassCard = (props) => {
                 : status + ` (${numOnWaitlist} student(s) waitlisted)`,
           };
           return (
-            <Fragment>
+            <Fragment key={idx}>
               <div className="px-6 py-4">
                 <div className="font-bold text-md mb-4">
                   <span
@@ -152,7 +150,8 @@ const ClassCard = (props) => {
                       Location,
                       props.deptCode + " " + props.courseNumber,
                       sectionType,
-                      sectionNum
+                      sectionNum,
+                      sectionCode
                     )}
                     id={`${
                       props.deptCode + " " + props.courseNumber

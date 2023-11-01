@@ -35,6 +35,7 @@ const classesReducer = (state, action) => {
           title: action.data.courseTitle,
           type: action.data.courseType,
           section: action.data.sectionNum,
+          code: action.data.sectionCode,
         },
       ],
     };
