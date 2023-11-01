@@ -1,5 +1,5 @@
 import Layout from "./components/Layout/Layout";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Schedule from "./components/Schedule/Schedule";
 import "./App.css";
 import ClassCard from "./components/UI/ClassCard";
@@ -10,12 +10,10 @@ function App() {
   return (
     <ClassesProvider>
       <Layout>
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<Schedule />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </HashRouter>
+        <Routes>
+          <Route path="/" element={<Schedule />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
       </Layout>
     </ClassesProvider>
   );
