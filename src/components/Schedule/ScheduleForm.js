@@ -22,7 +22,7 @@ export default function ScheduleForm() {
 
   useEffect(() => {
     const getFormInfo = async () => {
-      await fetch("http://127.0.0.1:5000/get-form-info")
+      await fetch("https://zotter-4e7fd16e0ef2.herokuapp.com/get-form-info")
         .then(async (data) => {
           const res = await data.json();
           setTerms(res.terms);
