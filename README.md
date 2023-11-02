@@ -1,4 +1,4 @@
-# Zotter - UCI Course Scheduling App
+# [Zotter](https://chrisbryann.github.io/Zotter/) - UCI Course Scheduling App
 
 ![alt_text](./public/main_screen.png)
 ![alt_text](./public/class_schedule_checkout.png)

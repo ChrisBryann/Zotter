@@ -2,7 +2,6 @@ import Layout from "./components/Layout/Layout";
 import { Route, Routes } from "react-router-dom";
 import Schedule from "./components/Schedule/Schedule";
 import "./App.css";
-import ClassCard from "./components/UI/ClassCard";
 import ClassesProvider from "./store/classesProvider";
 import ErrorPage from "./components/UI/ErrorPage";
 
