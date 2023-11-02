@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Zotter/static/css/main.f0420fa7.css",
-    "main.js": "/Zotter/static/js/main.4d611c7f.js",
+    "main.js": "/Zotter/static/js/main.b324e6a9.js",
     "static/js/787.212b47b8.chunk.js": "/Zotter/static/js/787.212b47b8.chunk.js",
     "index.html": "/Zotter/index.html",
     "main.f0420fa7.css.map": "/Zotter/static/css/main.f0420fa7.css.map",
-    "main.4d611c7f.js.map": "/Zotter/static/js/main.4d611c7f.js.map",
+    "main.b324e6a9.js.map": "/Zotter/static/js/main.b324e6a9.js.map",
     "787.212b47b8.chunk.js.map": "/Zotter/static/js/787.212b47b8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f0420fa7.css",
-    "static/js/main.4d611c7f.js"
+    "static/js/main.b324e6a9.js"
   ]
 }
